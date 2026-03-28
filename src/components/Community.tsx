@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Heart, MessageSquare, Share2, Send } from 'lucide-react';
+import { Heart, MessageSquare, Share2 } from 'lucide-react';
 
 export default function Community() {
   const posts = [
@@ -46,33 +46,6 @@ export default function Community() {
         <h1 className="text-4xl md:text-6xl font-display font-bold mb-8">
           The <span className="text-[#7ec400]">Community</span>.
         </h1>
-
-        {/* Post Input Field */}
-        <div className="bento-card p-6 mb-10 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-[#7ec400]/10 rounded-full blur-3xl -ml-10 -mt-10"></div>
-          <div className="relative z-10 flex flex-col space-y-4">
-            <div className="flex items-start space-x-4">
-              <img
-                src="https://picsum.photos/seed/myuser/100/100"
-                alt="User Avatar"
-                className="w-12 h-12 rounded-full border-2 border-[#7ec400]/50"
-                referrerPolicy="no-referrer"
-              />
-              <textarea
-                placeholder="What's on your mind, developer?"
-                className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 resize-none h-20 text-lg outline-none"
-              ></textarea>
-            </div>
-            <div className="flex justify-between items-center pt-4 border-t border-white/10">
-              <div className="flex space-x-2 text-gray-400">
-                {/* Add media icons here if needed */}
-              </div>
-              <button className="px-6 py-2 bg-[#7ec400] hover:bg-[#68a300] text-black font-bold rounded-full transition-colors flex items-center shadow-[0_0_15px_rgba(126,196,0,0.4)]">
-                Post <Send className="w-4 h-4 ml-2" />
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* Feed */}
         <div className="space-y-6">

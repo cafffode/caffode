@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Download, Star } from 'lucide-react';
+import { Download, Star, ShoppingBag } from 'lucide-react';
 
-export default function Store() {
+export default function Store({ setActiveTab, addToCart }: { setActiveTab: (tab: string) => void, addToCart: (product: any) => void }) {
   const [activeSubTab, setActiveSubTab] = useState('Feed');
-  const subTabs = ['Feed', 'Application', 'Games', 'Website'];
+  const subTabs = ['Feed', 'Websites', 'Games & Apps', 'Graphics', 'Products'];
 
   const products = [
-    { id: 1, title: 'Neon Horizon', category: 'Games', tag: 'RPG', rating: 4.8, image: 'https://picsum.photos/seed/game1/600/400?blur=1', price: '$29.00' },
-    { id: 3, title: 'Void Runner', category: 'Games', tag: 'Arcade', rating: 4.5, image: 'https://picsum.photos/seed/game2/600/400?blur=1', price: 'Free' },
-    { id: 4, title: 'Pixel Forge', category: 'Application', tag: 'Tool', rating: 4.7, image: 'https://picsum.photos/seed/app1/600/400?blur=1', price: '$19.99' },
-    { id: 6, title: 'Nexus Engine', category: 'Application', tag: 'Dev', rating: 4.9, image: 'https://picsum.photos/seed/app2/600/400?blur=1', price: 'Free' },
-    { id: 2, title: 'Caffode UI', category: 'Website', tag: 'Design', rating: 4.9, image: 'https://picsum.photos/seed/web1/600/400?blur=1', price: '$49.00' },
-    { id: 5, title: 'Cyberpunk Kit', category: 'Website', tag: 'Strategy', rating: 4.6, image: 'https://picsum.photos/seed/web2/600/400?blur=1', price: '$14.99' },
+    { id: 1, title: 'Neon Horizon', category: 'Games & Apps', tag: 'RPG', rating: 4.8, image: 'https://picsum.photos/seed/game1/600/400?blur=1', price: 29.00, isFree: false, weight: 0 },
+    { id: 3, title: 'Void Runner', category: 'Games & Apps', tag: 'Arcade', rating: 4.5, image: 'https://picsum.photos/seed/game2/600/400?blur=1', price: 0, isFree: true, weight: 0 },
+    { id: 4, title: 'Pixel Forge', category: 'Games & Apps', tag: 'Tool', rating: 4.7, image: 'https://picsum.photos/seed/app1/600/400?blur=1', price: 19.99, isFree: false, weight: 0 },
+    { id: 2, title: 'Caffode UI Kit', category: 'Websites', tag: 'Design', rating: 4.9, image: 'https://picsum.photos/seed/web1/600/400?blur=1', price: 49.00, isFree: false, weight: 0 },
+    { id: 7, title: 'Cyberpunk Tee', category: 'Graphics', tag: 'Apparel', rating: 4.8, image: 'https://picsum.photos/seed/shirt/600/400?blur=1', price: 35.00, isFree: false, weight: 0.3 },
+    { id: 8, title: 'Neon Poster Set', category: 'Graphics', tag: 'Print', rating: 4.9, image: 'https://picsum.photos/seed/poster/600/400?blur=1', price: 15.00, isFree: false, weight: 0.5 },
+    { id: 9, title: 'Caffode Mechanical Keyboard', category: 'Products', tag: 'Mechanical', rating: 4.9, image: 'https://picsum.photos/seed/keyboard/600/400?blur=1', price: 149.00, isFree: false, weight: 1.2 },
+    { id: 10, title: 'Caffode Precision Mouse', category: 'Products', tag: 'Gaming', rating: 4.8, image: 'https://picsum.photos/seed/mouse/600/400?blur=1', price: 79.00, isFree: false, weight: 0.15 },
+    { id: 11, title: 'Caffode Neon Mousepad', category: 'Products', tag: 'Desk Mat', rating: 4.7, image: 'https://picsum.photos/seed/mousepad/600/400?blur=1', price: 29.00, isFree: false, weight: 0.4 },
   ];
 
   const filteredProducts = activeSubTab === 'Feed' ? [] : products.filter(p => p.category === activeSubTab);
@@ -64,12 +67,6 @@ export default function Store() {
                 <h3 className="text-xl font-bold mb-2">Neon Pulse Launched</h3>
                 <p className="text-gray-400">Our highly anticipated cyberpunk rhythm game is now available for download. Experience the neon rush.</p>
               </div>
-              <div className="relative">
-                <div className="absolute -left-[35px] top-1 w-4 h-4 rounded-full bg-gray-600 border-4 border-[#0B0C10]"></div>
-                <span className="text-sm text-gray-500 mb-1 block">Patch • 3 days ago</span>
-                <h3 className="text-xl font-bold mb-2">Cyberpunk UI Kit 1.2</h3>
-                <p className="text-gray-400">Fixed minor styling issues in dark mode and added 10 new glassmorphism components.</p>
-              </div>
             </div>
           </div>
         ) : (
@@ -96,8 +93,8 @@ export default function Store() {
                       <span className="w-2 h-2 rounded-full bg-blue-400 mr-2"></span>
                       {product.tag}
                     </div>
-                    <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-bold border ${product.price === 'Free' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-[#d8ff30]/20 text-[#d8ff30] border-[#d8ff30]/30'}`}>
-                      {product.price}
+                    <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-bold border ${product.isFree ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-[#d8ff30]/20 text-[#d8ff30] border-[#d8ff30]/30'}`}>
+                      {product.isFree ? 'Free' : `${product.price} TK`}
                     </div>
                   </div>
                   <div className="p-6 flex-grow flex flex-col justify-between">
@@ -108,10 +105,26 @@ export default function Store() {
                         {product.rating}
                       </div>
                     </div>
-                    <button className="w-full py-3.5 bg-transparent border border-white/10 hover:bg-white/5 text-white rounded-xl flex items-center justify-center font-medium transition-colors">
-                      <Download className="w-5 h-5 mr-2" />
-                      {product.price === 'Free' ? 'Download' : 'Purchase'}
-                    </button>
+                    <div className="flex gap-3">
+                      <button 
+                        onClick={() => addToCart(product)}
+                        className="flex-grow py-3.5 bg-transparent border border-white/10 hover:bg-white/5 text-white rounded-xl flex items-center justify-center font-medium transition-colors"
+                      >
+                        {product.isFree ? <Download className="w-5 h-5 mr-2" /> : <ShoppingBag className="w-5 h-5 mr-2" />}
+                        {product.isFree ? 'Download' : 'Add to Cart'}
+                      </button>
+                      {!product.isFree && (
+                        <button 
+                          onClick={() => {
+                            addToCart(product);
+                            setActiveTab('Checkout');
+                          }}
+                          className="px-6 py-3.5 bg-[#d8ff30] text-black rounded-xl font-bold hover:bg-[#c2e62b] transition-colors"
+                        >
+                          Buy Now
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}

@@ -88,3 +88,14 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-caffode-lime);
 }
+
+/* Fix for white dropdown background */
+select option {
+  background-color: #14151a;
+  color: #ffffff;
+}
+
+select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

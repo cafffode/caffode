@@ -8,12 +8,35 @@ import { motion, AnimatePresence } from 'motion/react';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Purpose from './components/Purpose';
-import Works from './components/Works';
 import Store from './components/Store';
 import Community from './components/Community';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
+import { CartItem } from './types';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  const addToCart = (product: any) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item => 
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart(prev => prev.filter(item => item.id !== id));
+  };
+
+  const clearCart = () => setCart([]);
+
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -21,12 +44,29 @@ export default function App() {
         return <Home setActiveTab={setActiveTab} />;
       case 'Purpose':
         return <Purpose />;
-      case 'Works':
-        return <Works />;
       case 'Store':
-        return <Store />;
+        return <Store setActiveTab={setActiveTab} addToCart={addToCart} />;
       case 'Community':
         return <Community />;
+      case 'Cart':
+        return (
+          <Cart 
+            cartItems={cart} 
+            onRemove={removeFromCart} 
+            onCheckout={() => setActiveTab('Checkout')} 
+          />
+        );
+      case 'Checkout':
+        return (
+          <Checkout 
+            cartItems={cart}
+            onComplete={() => {
+              clearCart();
+              setActiveTab('Home');
+            }} 
+            onBack={() => setActiveTab('Cart')} 
+          />
+        );
       default:
         return <Home setActiveTab={setActiveTab} />;
     }
@@ -44,7 +84,11 @@ export default function App() {
       </div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Navbar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          cartCount={cartCount}
+        />
         <main className="flex-grow relative">
           <AnimatePresence mode="wait">
             <motion.div

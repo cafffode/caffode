@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { Download, User, Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag, Facebook } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export default function Navbar({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (tab: string) => void }) {
+export default function Navbar({ 
+  activeTab, 
+  setActiveTab,
+  cartCount
+}: { 
+  activeTab: string, 
+  setActiveTab: (tab: string) => void,
+  cartCount: number
+}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const tabs = ['Home', 'Purpose', 'Store', 'Works', 'Community'];
+  
+  const tabs = ['Home', 'Purpose', 'Store', 'Community', 'Cart'];
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -15,7 +24,6 @@ export default function Navbar({ activeTab, setActiveTab }: { activeTab: string,
     <nav className="glass-nav fixed top-0 w-full z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <div className="flex-shrink-0 cursor-pointer" onClick={() => handleTabClick('Home')}>
             <span className="font-display font-bold text-2xl tracking-tighter text-white">
               Caffode<span className="text-[#d8ff30]">.</span>
@@ -43,11 +51,24 @@ export default function Navbar({ activeTab, setActiveTab }: { activeTab: string,
 
           {/* Right Icons - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="p-2 text-gray-400 hover:text-[#d8ff30] transition-colors">
-              <Download className="w-5 h-5" />
-            </button>
-            <button className="p-2 rounded-full border border-[#d8ff30]/30 text-[#d8ff30] hover:bg-[#d8ff30]/10 transition-colors">
-              <User className="w-5 h-5" />
+            <a 
+              href="https://www.facebook.com/caffode"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-gray-400 hover:text-[#d8ff30] transition-colors"
+            >
+              <Facebook className="w-5 h-5" />
+            </a>
+            <button 
+              onClick={() => handleTabClick('Cart')}
+              className={`p-2 transition-colors relative ${activeTab === 'Cart' ? 'text-[#d8ff30]' : 'text-gray-400 hover:text-[#d8ff30]'}`}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 w-4 h-4 bg-[#d8ff30] text-black text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </button>
           </div>
 
@@ -86,14 +107,6 @@ export default function Navbar({ activeTab, setActiveTab }: { activeTab: string,
                   {tab}
                 </button>
               ))}
-              <div className="flex items-center space-x-4 px-3 py-4 border-t border-white/10 mt-2">
-                <button className="flex items-center text-gray-400 hover:text-[#d8ff30] transition-colors">
-                  <Download className="w-5 h-5 mr-2" /> Downloads
-                </button>
-                <button className="flex items-center text-[#d8ff30] transition-colors">
-                  <User className="w-5 h-5 mr-2" /> Profile
-                </button>
-              </div>
             </div>
           </motion.div>
         )}

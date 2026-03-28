@@ -1,11 +1,26 @@
-import { motion } from 'motion/react';
-import { ArrowRight, Code, Layout, Smartphone } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { ArrowRight, Code, Smartphone, Facebook } from 'lucide-react';
 
 export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
+  const containerRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Parallax values for Hero section
+  const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const opacityHero = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <div className="relative min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div ref={containerRef} className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-32">
       {/* Hero Section */}
-      <div className="text-center max-w-4xl mx-auto mt-10 lg:mt-20">
+      <motion.div 
+        style={{ y: yHero, opacity: opacityHero }}
+        className="min-h-screen flex flex-col justify-center items-center text-center max-w-4xl mx-auto pt-20"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,22 +65,20 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
             Explore the Store
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-          <button
-            onClick={() => setActiveTab('Works')}
-            className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-medium rounded-lg border border-white/10 transition-colors"
+          <a
+            href="https://www.facebook.com/caffode"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-8 py-4 border border-white/10 hover:bg-white/5 text-white font-semibold rounded-lg transition-colors flex items-center justify-center group"
           >
-            View Our Work
-          </button>
+            Follow on Facebook
+            <Facebook className="ml-2 w-5 h-5" />
+          </a>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Bento Grid Below the Fold */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.5 }}
-        className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-6"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 bg-[#0B0C10]/50 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-2xl">
         {/* Card 1 */}
         <div className="bento-card p-8 md:col-span-2 relative overflow-hidden group cursor-pointer" onClick={() => setActiveTab('Store')}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#7ec400]/10 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:bg-[#7ec400]/20"></div>
@@ -74,7 +87,7 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
               <Code className="w-6 h-6 text-[#7ec400]" />
             </div>
             <h3 className="text-2xl font-display font-bold mb-2">Latest Release: Nexus Engine</h3>
-            <p className="text-gray-400 mb-6 max-w-md">Our new high-performance rendering engine is now available in the store. Built for the modern web.</p>
+            <p className="text-gray-400 mb-6 max-w-md">Our new high-performance rendering engine is now available. Built for the modern web.</p>
             <span className="text-[#7ec400] font-medium flex items-center group-hover:underline">
               View in Store <ArrowRight className="ml-1 w-4 h-4" />
             </span>
@@ -82,20 +95,6 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
         </div>
 
         {/* Card 2 */}
-        <div className="bento-card p-8 relative overflow-hidden group cursor-pointer" onClick={() => setActiveTab('Works')}>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#fed430]/10 rounded-full blur-2xl -ml-10 -mb-10 transition-all group-hover:bg-[#fed430]/20"></div>
-          <div className="relative z-10 h-full flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-[#fed430]/20 flex items-center justify-center mb-4 border border-[#fed430]/30">
-                <Layout className="w-5 h-5 text-[#fed430]" />
-              </div>
-              <h3 className="text-xl font-display font-bold mb-2">Project Alpha</h3>
-              <p className="text-gray-400 text-sm">Award-winning fintech dashboard design.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 3 */}
         <div className="bento-card p-8 relative overflow-hidden group cursor-pointer" onClick={() => setActiveTab('Community')}>
           <div className="absolute top-1/2 right-0 w-32 h-32 bg-[#d8ff30]/10 rounded-full blur-2xl -mr-10 transition-all group-hover:bg-[#d8ff30]/20"></div>
           <div className="relative z-10 h-full flex flex-col justify-between">
@@ -108,7 +107,7 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
