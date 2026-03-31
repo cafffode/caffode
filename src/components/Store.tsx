@@ -76,10 +76,11 @@ export default function Store({ setActiveTab, addToCart }: { setActiveTab: (tab:
                 <motion.div
                   layout
                   key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   className="bg-[#14151a] rounded-2xl overflow-hidden border border-white/5 flex flex-col"
                 >
                   <div className="relative h-64 overflow-hidden">

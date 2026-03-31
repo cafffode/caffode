@@ -22,7 +22,13 @@ export default function Purpose() {
           Creative Agency For Future-ready Outstanding Digital Experiences
         </p>
         
-        <div className="prose prose-invert prose-lg max-w-none text-gray-300 font-light leading-relaxed">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="prose prose-invert prose-lg max-w-none text-gray-300 font-light leading-relaxed"
+        >
           <p className="mb-6 text-xl text-white font-medium">
             Design. Code. Create.
           </p>
@@ -32,7 +38,7 @@ export default function Purpose() {
           <p className="mb-12">
             Our mission is to bridge the gap between <span className="text-[#fed430] font-medium">aesthetic brilliance</span> and <span className="text-[#7ec400] font-medium">technical robustness</span>. We don't just write code; we architect solutions that scale, perform, and inspire. We are where your digital ideas get brewed to perfection.
           </p>
-        </div>
+        </motion.div>
 
         <motion.a
           href="https://www.facebook.com/caffode"
@@ -59,9 +65,15 @@ export default function Purpose() {
           </div>
         </motion.a>
 
-        <h2 className="text-2xl md:text-3xl font-display font-bold mb-8 mt-16 border-b border-white/10 pb-4">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl md:text-3xl font-display font-bold mb-8 mt-16 border-b border-white/10 pb-4"
+        >
           The Tech Stack
-        </h2>
+        </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {techStack.map((tech, index) => (
@@ -79,7 +91,13 @@ export default function Purpose() {
           ))}
         </div>
 
-        <div className="mt-20 bento-card p-8 md:p-12 bg-gradient-to-br from-[#14151a] to-[#0B0C10] border-[#d8ff30]/20 relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-20 bento-card p-8 md:p-12 bg-gradient-to-br from-[#14151a] to-[#0B0C10] border-[#d8ff30]/20 relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#d8ff30]/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
           <h2 className="text-3xl font-display font-bold mb-4">Ready to build?</h2>
           <p className="text-gray-400 mb-8 max-w-2xl">
@@ -88,7 +106,7 @@ export default function Purpose() {
           <button className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors">
             Contact the Studio
           </button>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

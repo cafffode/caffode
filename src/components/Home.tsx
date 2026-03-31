@@ -5,21 +5,19 @@ import { ArrowRight, Code, Smartphone, Facebook } from 'lucide-react';
 export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
   const containerRef = useRef(null);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+  const { scrollYProgress } = useScroll();
 
   // Parallax values for Hero section
-  const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacityHero = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const yHero = useTransform(scrollYProgress, [0, 0.2], ["0%", "20%"]);
+  const opacityHero = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const scaleHero = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
   return (
     <div ref={containerRef} className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-32">
       {/* Hero Section */}
       <motion.div 
-        style={{ y: yHero, opacity: opacityHero }}
-        className="min-h-screen flex flex-col justify-center items-center text-center max-w-4xl mx-auto pt-20"
+        style={{ y: yHero, opacity: opacityHero, scale: scaleHero }}
+        className="min-h-[90vh] flex flex-col justify-center items-center text-center max-w-4xl mx-auto pt-20"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,7 +76,13 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
       </motion.div>
 
       {/* Bento Grid Below the Fold */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 bg-[#0B0C10]/50 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-2xl">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 bg-[#0B0C10]/50 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-2xl"
+      >
         {/* Card 1 */}
         <div className="bento-card p-8 md:col-span-2 relative overflow-hidden group cursor-pointer" onClick={() => setActiveTab('Store')}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#7ec400]/10 rounded-full blur-3xl -mr-20 -mt-20 transition-all group-hover:bg-[#7ec400]/20"></div>
@@ -107,7 +111,7 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

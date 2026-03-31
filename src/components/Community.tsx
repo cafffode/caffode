@@ -52,9 +52,10 @@ export default function Community() {
           {posts.map((post, index) => (
             <motion.div
               key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="bento-card p-6"
             >
               <div className="flex items-start space-x-4 mb-4">
