@@ -96,14 +96,14 @@ export default function Purpose() {
               variants={{
                 initial: { opacity: 0, y: 30 },
                 animate: { opacity: 1, y: 0 },
-                hover: { y: -5 }
+                hover: { y: -5, opacity: 1 }
               }}
               initial="initial"
               whileInView={isTouch ? "hover" : "animate"}
               whileHover={!isTouch ? "hover" : undefined}
               viewport={{ 
                 once: !isTouch,
-                amount: 0.8 // Trigger when 80% of the card is visible on touch
+                amount: 0.3 // Significantly lower threshold for mobile visibility
               }}
               transition={{ 
                 duration: 0.8, 
