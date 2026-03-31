@@ -103,7 +103,7 @@ export default function Purpose() {
               whileHover={!isTouch ? "hover" : undefined}
               viewport={{ 
                 once: !isTouch,
-                amount: 0.3 // Significantly lower threshold for mobile visibility
+                amount: 0.3
               }}
               transition={{ 
                 duration: 0.8, 
@@ -113,14 +113,35 @@ export default function Purpose() {
               }}
               className="bento-card p-8 group relative overflow-hidden cursor-default h-fit"
             >
-              <div className="absolute top-0 left-0 w-1 h-0 bg-[#d8ff30] group-hover:h-full transition-all duration-500"></div>
+              <motion.div 
+                variants={{
+                  initial: { height: 0 },
+                  animate: { height: 0 },
+                  hover: { height: "100%" }
+                }}
+                className="absolute top-0 left-0 w-1 bg-[#d8ff30] transition-all duration-500"
+              />
               
-              <div className="flex items-center gap-5 mb-2 group-hover:mb-6 transition-all duration-500">
-                <div className="text-[#d8ff30] p-4 rounded-2xl bg-[#d8ff30]/5 w-fit border border-[#d8ff30]/10 group-hover:scale-110 transition-transform duration-500">
+              <motion.div 
+                variants={{
+                  initial: { marginBottom: 8 },
+                  animate: { marginBottom: 8 },
+                  hover: { marginBottom: 24 }
+                }}
+                className="flex items-center gap-5 transition-all duration-500"
+              >
+                <motion.div 
+                  variants={{
+                    initial: { scale: 1 },
+                    animate: { scale: 1 },
+                    hover: { scale: 1.1 }
+                  }}
+                  className="text-[#d8ff30] p-4 rounded-2xl bg-[#d8ff30]/5 w-fit border border-[#d8ff30]/10 transition-transform duration-500"
+                >
                   {tech.icon}
-                </div>
+                </motion.div>
                 <h3 className="text-2xl font-display font-bold tracking-tight">{tech.name}</h3>
-              </div>
+              </motion.div>
               
               <motion.div
                 layout
