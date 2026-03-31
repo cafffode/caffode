@@ -15,23 +15,25 @@ export default function Purpose() {
   }, []);
 
   const techStack = [
-    { name: 'Frontend', icon: <Terminal className="w-6 h-6" />, desc: 'React, Next.js, Tailwind CSS, Framer Motion' },
-    { name: 'Backend', icon: <Server className="w-6 h-6" />, desc: 'Node.js, Express, Go, Python' },
-    { name: 'Database', icon: <Database className="w-6 h-6" />, desc: 'PostgreSQL, MongoDB, Redis' },
+    { name: 'Frontend', icon: <Terminal className="w-6 h-6" />, desc: 'React, Next.js, Tailwind CSS, Framer Motion', h3Color: '#e1e700', pColor: '#97ef5f' },
+    { name: 'Backend', icon: <Server className="w-6 h-6" />, desc: 'Node.js, Express, Go, Python', h3Color: '#e1e700', pColor: '#bcff2f' },
+    { name: 'Database', icon: <Database className="w-6 h-6" />, desc: 'PostgreSQL, MongoDB, Redis', h3Color: '#e1e700', pColor: '#97ef5f' },
   ];
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">
-          Our <span className="text-[#d8ff30]">Purpose</span>.
+        <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 text-center">
+          <div style={{ display: 'inline' }}>Our </div>
+          <div className="text-[#d8ff30] italic font-bold" style={{ fontFamily: 'Arial', display: 'inline-block', textDecoration: 'none' }}>Purpose</div>
+          .
         </h1>
-        <p className="text-[#d8ff30] font-mono text-sm mb-8 tracking-widest uppercase">
-          Creative Agency For Future-ready Outstanding Digital Experiences
+        <p className="font-mono text-sm mb-8 tracking-widest uppercase text-right" style={{ color: '#ffe964', textAlign: 'right' }}>
+          <span style={{ color: '#cdf70f' }}>Creative Agency For Future-ready Outstanding Digital Experiences</span>
         </p>
         
         <motion.div
@@ -119,7 +121,8 @@ export default function Purpose() {
                   animate: { height: 0 },
                   hover: { height: "100%" }
                 }}
-                className="absolute top-0 left-0 w-1 bg-[#d8ff30] transition-all duration-500"
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="absolute top-0 left-0 w-1 bg-[#d8ff30]"
               />
               
               <motion.div 
@@ -140,7 +143,7 @@ export default function Purpose() {
                 >
                   {tech.icon}
                 </motion.div>
-                <h3 className="text-2xl font-display font-bold tracking-tight">{tech.name}</h3>
+                <h3 className="text-2xl font-display font-bold tracking-tight" style={{ color: tech.h3Color }}>{tech.name}</h3>
               </motion.div>
               
               <motion.div
@@ -159,7 +162,8 @@ export default function Purpose() {
                     animate: { y: -10 },
                     hover: { y: 0 }
                   }}
-                  className="text-gray-400 leading-relaxed font-light border-t border-white/5 pt-4"
+                  className="leading-relaxed font-light border-t border-white/5 pt-4"
+                  style={{ color: tech.pColor }}
                 >
                   {tech.desc}
                 </motion.p>

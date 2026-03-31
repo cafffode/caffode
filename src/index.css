@@ -131,6 +131,14 @@ html.lenis, html.lenis body {
   background: var(--color-caffode-lime);
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Fix for white dropdown background */
 select option {
   background-color: #14151a;

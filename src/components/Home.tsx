@@ -73,7 +73,7 @@ export default function Home({ setActiveTab }: { setActiveTab: (tab: string) => 
             transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="neon-text-highlight mt-2 md:mt-4 relative"
           >
-            <span className="relative z-10">Realities</span>
+            <span className="relative z-10 font-bold uppercase tracking-tighter italic font-[Arial]">Realities</span>
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: "100%" }}

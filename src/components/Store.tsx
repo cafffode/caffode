@@ -1,10 +1,28 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Download, Star, ShoppingBag } from 'lucide-react';
 
 export default function Store({ setActiveTab, addToCart }: { setActiveTab: (tab: string) => void, addToCart: (product: any) => void }) {
   const [activeSubTab, setActiveSubTab] = useState('Feed');
   const subTabs = ['Feed', 'Websites', 'Games & Apps', 'Graphics', 'Products'];
+  const constraintsRef = useRef<HTMLDivElement>(null);
+  const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
+  const tabsContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateConstraints = () => {
+      if (tabsContentRef.current && constraintsRef.current) {
+        const containerWidth = constraintsRef.current.offsetWidth;
+        const contentWidth = tabsContentRef.current.scrollWidth;
+        const leftConstraint = Math.min(0, containerWidth - contentWidth);
+        setDragConstraints({ left: leftConstraint, right: 0 });
+      }
+    };
+
+    updateConstraints();
+    window.addEventListener('resize', updateConstraints);
+    return () => window.removeEventListener('resize', updateConstraints);
+  }, [subTabs]);
 
   const products = [
     { id: 1, title: 'Neon Horizon', category: 'Games & Apps', tag: 'RPG', rating: 4.8, image: 'https://picsum.photos/seed/game1/600/400?blur=1', price: 29.00, isFree: false, weight: 0 },
@@ -32,21 +50,33 @@ export default function Store({ setActiveTab, addToCart }: { setActiveTab: (tab:
             Store
           </h1>
 
-          {/* Sub-Navigation Menu */}
-          <div className="flex items-center p-1.5 gap-1 rounded-full border border-white/10 bg-[#14151a] self-start md:self-auto overflow-x-auto scrollbar-hide">
-            {subTabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveSubTab(tab)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-                  activeSubTab === tab
-                    ? 'bg-[#d8ff30] text-black ring-1 ring-white ring-offset-2 ring-offset-[#14151a] shadow-[0_0_15px_rgba(216,255,48,0.3)]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+          {/* Sub-Navigation Menu - Draggable for full responsiveness */}
+          <div 
+            ref={constraintsRef}
+            className="w-full md:w-auto overflow-hidden rounded-full border border-white/10 bg-[#14151a] p-1.5 cursor-grab active:cursor-grabbing"
+          >
+            <motion.div
+              ref={tabsContentRef}
+              drag="x"
+              dragConstraints={dragConstraints}
+              dragElastic={0.1}
+              className="flex items-center gap-1 w-max"
+            >
+              {subTabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveSubTab(tab)}
+                  onPointerDown={(e) => e.stopPropagation()} // Allow clicking while dragging
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
+                    activeSubTab === tab
+                      ? 'bg-[#d8ff30] text-black ring-1 ring-white ring-offset-2 ring-offset-[#14151a] shadow-[0_0_15px_rgba(216,255,48,0.3)]'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </motion.div>
           </div>
         </div>
 
