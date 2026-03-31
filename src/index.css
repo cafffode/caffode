@@ -11,6 +11,28 @@
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-caffode-bg text-white selection:bg-caffode-lime selection:text-black;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  }
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.grid-background {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 40px 40px;
 }
 
 body {
@@ -22,22 +44,25 @@ body {
 }
 
 .glass-nav {
-  background: rgba(11, 12, 16, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-caffode-border);
+  background: rgba(11, 12, 16, 0.5);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .bento-card {
-  background: var(--color-caffode-card);
-  border: 1px solid var(--color-caffode-border);
-  border-radius: 1rem;
-  transition: all 0.3s ease;
+  background: rgba(20, 21, 26, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .bento-card:hover {
-  border-color: rgba(216, 255, 48, 0.3);
-  box-shadow: 0 0 20px rgba(216, 255, 48, 0.05);
+  background: rgba(20, 21, 26, 0.6);
+  border-color: rgba(216, 255, 48, 0.4);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(216, 255, 48, 0.1);
 }
 
 .neon-text-highlight {

@@ -48,10 +48,14 @@ export default function App() {
     };
   }, []);
 
-  // Scroll to top on tab change
+  // Scroll to top and resize Lenis on tab change
   useEffect(() => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
+      // Give a tiny bit of time for the DOM to update before resizing
+      requestAnimationFrame(() => {
+        lenisRef.current?.resize();
+      });
     } else {
       window.scrollTo(0, 0);
     }
@@ -112,9 +116,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0C10] text-white font-sans selection:bg-[#d8ff30] selection:text-black relative overflow-hidden">
+    <div className="min-h-screen bg-[#0B0C10] text-white font-sans selection:bg-[#d8ff30] selection:text-black relative overflow-x-hidden">
+      <div className="noise-overlay" />
+      
       {/* Global Animated Neon Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="grid-background absolute inset-0 opacity-20" />
         <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,rgba(216,255,48,0.15)_0%,rgba(126,196,0,0)_70%)] blur-[80px] animate-blob"></div>
         <div className="absolute top-[20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(circle,rgba(126,196,0,0.15)_0%,rgba(216,255,48,0)_70%)] blur-[100px] animate-blob animation-delay-2000"></div>
         <div className="absolute bottom-[-20%] left-[20%] w-[65vw] h-[65vw] rounded-full bg-[radial-gradient(circle,rgba(254,212,48,0.1)_0%,rgba(216,255,48,0)_70%)] blur-[90px] animate-blob animation-delay-4000"></div>

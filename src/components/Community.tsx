@@ -48,43 +48,69 @@ export default function Community() {
         </h1>
 
         {/* Feed */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {posts.map((post, index) => (
             <motion.div
               key={post.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="bento-card p-6"
+              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.1,
+                ease: [0.22, 1, 0.36, 1] 
+              }}
+              whileHover={{ y: -5 }}
+              className="bento-card p-8 group relative overflow-hidden"
             >
-              <div className="flex items-start space-x-4 mb-4">
-                <img
-                  src={post.avatar}
-                  alt={post.user}
-                  className="w-12 h-12 rounded-full"
-                  referrerPolicy="no-referrer"
-                />
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <h4 className="font-bold text-white">{post.user}</h4>
-                    <span className="text-gray-500 text-sm">{post.handle}</span>
-                    <span className="text-gray-600 text-sm">• {post.time}</span>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#7ec400]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              
+              <div className="flex items-start space-x-5 mb-6">
+                <div className="relative">
+                  <motion.img
+                    whileHover={{ scale: 1.1 }}
+                    src={post.avatar}
+                    alt={post.user}
+                    className="w-14 h-14 rounded-2xl object-cover border-2 border-white/5 group-hover:border-[#7ec400]/30 transition-colors"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#7ec400] border-2 border-[#14151a]"></div>
+                </div>
+                <div className="flex-grow">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-display font-bold text-xl text-white group-hover:text-[#7ec400] transition-colors">{post.user}</h4>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-gray-500 font-mono">{post.handle}</span>
+                        <span className="text-gray-700">•</span>
+                        <span className="text-gray-600">{post.time}</span>
+                      </div>
+                    </div>
+                    <motion.button 
+                      whileHover={{ rotate: 90 }}
+                      className="p-2 rounded-full hover:bg-white/5 text-gray-600 hover:text-white transition-all"
+                    >
+                      <Share2 className="w-5 h-5" />
+                    </motion.button>
                   </div>
                 </div>
               </div>
               
-              <p className="text-gray-300 mb-4 text-lg leading-relaxed">{post.content}</p>
+              <p className="text-gray-300 mb-6 text-xl leading-relaxed font-light">{post.content}</p>
               
               {post.image && (
-                <div className="mb-4 rounded-xl overflow-hidden border border-white/10">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="mb-6 rounded-2xl overflow-hidden border border-white/5 relative group/img"
+                >
                   <img
                     src={post.image}
                     alt="Post media"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover transition-transform duration-1000 group-hover/img:scale-110"
                     referrerPolicy="no-referrer"
                   />
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity"></div>
+                </motion.div>
               )}
 
               <div className="flex items-center space-x-8 text-gray-500 mt-4 pt-4 border-t border-white/5">

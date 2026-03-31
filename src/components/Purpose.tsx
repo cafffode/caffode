@@ -66,46 +66,95 @@ export default function Purpose() {
         </motion.a>
 
         <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-2xl md:text-3xl font-display font-bold mb-8 mt-16 border-b border-white/10 pb-4"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-2xl md:text-4xl font-display font-bold mb-12 mt-24 flex items-center gap-4"
         >
+          <span className="w-12 h-[1px] bg-[#d8ff30]/50"></span>
           The Tech Stack
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {techStack.map((tech, index) => (
             <motion.div
               key={tech.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              className="bento-card p-6 border-l-4 border-l-[#d8ff30]"
+              variants={{
+                initial: { opacity: 0, y: 30 },
+                animate: { opacity: 1, y: 0 },
+                hover: { y: -5 }
+              }}
+              initial="initial"
+              whileInView="animate"
+              whileHover="hover"
+              viewport={{ once: true }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.15,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              className="bento-card p-8 group relative overflow-hidden cursor-default h-fit"
             >
-              <div className="text-[#d8ff30] mb-4">{tech.icon}</div>
-              <h3 className="text-xl font-bold mb-2">{tech.name}</h3>
-              <p className="text-sm text-gray-400">{tech.desc}</p>
+              <div className="absolute top-0 left-0 w-1 h-0 bg-[#d8ff30] group-hover:h-full transition-all duration-500"></div>
+              
+              <div className="flex items-center gap-5 mb-2 group-hover:mb-6 transition-all duration-500">
+                <div className="text-[#d8ff30] p-4 rounded-2xl bg-[#d8ff30]/5 w-fit border border-[#d8ff30]/10 group-hover:scale-110 transition-transform duration-500">
+                  {tech.icon}
+                </div>
+                <h3 className="text-2xl font-display font-bold tracking-tight">{tech.name}</h3>
+              </div>
+              
+              <motion.div
+                variants={{
+                  initial: { height: 0, opacity: 0 },
+                  animate: { height: 0, opacity: 0 },
+                  hover: { height: "auto", opacity: 1 }
+                }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden"
+              >
+                <motion.p 
+                  variants={{
+                    initial: { y: -10 },
+                    animate: { y: -10 },
+                    hover: { y: 0 }
+                  }}
+                  className="text-gray-400 leading-relaxed font-light border-t border-white/5 pt-4"
+                >
+                  {tech.desc}
+                </motion.p>
+              </motion.div>
             </motion.div>
           ))}
         </div>
 
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-20 bento-card p-8 md:p-12 bg-gradient-to-br from-[#14151a] to-[#0B0C10] border-[#d8ff30]/20 relative overflow-hidden"
+          whileHover={{ y: -10, borderColor: 'rgba(216, 255, 48, 0.4)' }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-32 bento-card p-12 md:p-20 bg-gradient-to-br from-[#14151a] to-[#0B0C10] border-[#d8ff30]/20 relative overflow-hidden group transition-all duration-500"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#d8ff30]/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-          <h2 className="text-3xl font-display font-bold mb-4">Ready to build?</h2>
-          <p className="text-gray-400 mb-8 max-w-2xl">
-            Whether you need a cutting-edge web application, an immersive game, or a scalable backend architecture, our team is ready to bring your vision to life.
-          </p>
-          <button className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors">
-            Contact the Studio
-          </button>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#d8ff30]/5 rounded-full blur-[100px] -mr-32 -mt-32 group-hover:bg-[#d8ff30]/10 transition-colors duration-700"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#7ec400]/5 rounded-full blur-[80px] -ml-20 -mb-20 group-hover:bg-[#7ec400]/10 transition-colors duration-700"></div>
+          
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
+            <div className="max-w-xl">
+              <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 tracking-tighter group-hover:text-[#d8ff30] transition-colors duration-500">Ready to build?</h2>
+              <p className="text-gray-400 text-lg md:text-xl font-light leading-relaxed group-hover:text-white transition-colors duration-500">
+                Whether you need a cutting-edge web application, an immersive game, or a scalable backend architecture, our team is ready to bring your vision to life.
+              </p>
+            </div>
+            <motion.button 
+              whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(216, 255, 48, 0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="px-12 py-5 bg-[#d8ff30] text-black font-bold rounded-full transition-all shadow-[0_20px_50px_rgba(216,255,48,0.2)] whitespace-nowrap"
+            >
+              Contact the Studio
+            </motion.button>
+          </div>
         </motion.div>
       </motion.div>
     </div>
