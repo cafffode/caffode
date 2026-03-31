@@ -1,7 +1,19 @@
 import { motion } from 'motion/react';
 import { Database, Server, Terminal, Facebook, ExternalLink } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Purpose() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const checkTouch = () => {
+      setIsTouch(window.matchMedia('(hover: none)').matches);
+    };
+    checkTouch();
+    window.addEventListener('resize', checkTouch);
+    return () => window.removeEventListener('resize', checkTouch);
+  }, []);
+
   const techStack = [
     { name: 'Frontend', icon: <Terminal className="w-6 h-6" />, desc: 'React, Next.js, Tailwind CSS, Framer Motion' },
     { name: 'Backend', icon: <Server className="w-6 h-6" />, desc: 'Node.js, Express, Go, Python' },
@@ -80,19 +92,24 @@ export default function Purpose() {
           {techStack.map((tech, index) => (
             <motion.div
               key={tech.name}
+              layout
               variants={{
                 initial: { opacity: 0, y: 30 },
                 animate: { opacity: 1, y: 0 },
                 hover: { y: -5 }
               }}
               initial="initial"
-              whileInView="animate"
-              whileHover="hover"
-              viewport={{ once: true }}
+              whileInView={isTouch ? "hover" : "animate"}
+              whileHover={!isTouch ? "hover" : undefined}
+              viewport={{ 
+                once: !isTouch,
+                amount: 0.8 // Trigger when 80% of the card is visible on touch
+              }}
               transition={{ 
                 duration: 0.8, 
                 delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                ease: [0.22, 1, 0.36, 1],
+                layout: { duration: 0.4, ease: "easeOut" }
               }}
               className="bento-card p-8 group relative overflow-hidden cursor-default h-fit"
             >
@@ -106,6 +123,7 @@ export default function Purpose() {
               </div>
               
               <motion.div
+                layout
                 variants={{
                   initial: { height: 0, opacity: 0 },
                   animate: { height: 0, opacity: 0 },
